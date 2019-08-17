@@ -1,0 +1,47 @@
+Create Watcher:
+---------------
+gcloud config set project ai-proj-v7
+gsutil mb gs://bkt-v7-1000
+gsutil notification create -f json -t topic-v7-1000 gs://bkt-v7-1000
+gcloud beta pubsub subscriptions create subs-v7-1000 --topic=topic-v7-1000
+
+Base Library Install:
+---------------------
+sudo apt-get install libasound2-dev
+sudo apt-get install python-dev python-numpy python-setuptools libsndfile-dev
+
+Install FFMPEG:
+---------------
+sudo apt update
+sudo apt install ffmpeg
+ffmpeg -version
+
+
+Clone Repo:
+-----------
+mkdir ai-proj-v7 && cd ai-proj-v7
+git clone https://github.com/mujahed85/gcp-ml-wav.git
+
+Install Requirements Libs:
+--------------------------
+cat > requirements.txt
+Flask==1.0.2
+Flask-Sockets==0.2.1
+gunicorn==19.9.0
+requests==2.21.0
+webapp2
+cffi
+soundfile
+statistics
+pydub
+google-cloud-speech==1.0.0
+google-cloud-storage
+google-cloud-pubsub
+
+mkdir lib
+pip install -t lib/ -r requirements.txt
+
+
+gcloud app deploy
+ 
+gcloud app browse
