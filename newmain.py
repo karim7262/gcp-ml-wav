@@ -54,6 +54,19 @@ def summarize(message):
     return description
     # [END parse_message]
 
+def copy_blob(bucket_name, blob_name, new_bucket_name, new_blob_name):
+    """Copies a blob from one bucket to another with a new name."""
+    storage_client = storage.Client()
+    source_bucket = storage_client.get_bucket(bucket_name)
+    source_blob = source_bucket.blob(blob_name)
+    destination_bucket = storage_client.get_bucket(new_bucket_name)
+
+    new_blob = source_bucket.copy_blob(
+        source_blob, destination_bucket, new_blob_name)
+
+    print('Blob {} in bucket {} copied to blob {} in bucket {}.'.format(
+        source_blob.name, source_bucket.name, new_blob.name,
+        destination_bucket.name))
 
 def CpSrcTrgtSplits(bucket_id, object_id):
     client = speech.SpeechClient()
@@ -64,8 +77,9 @@ def CpSrcTrgtSplits(bucket_id, object_id):
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucket_id)  # foldername+"/"+bucket_id)
     blob = bucket.blob(object_id)  # foldername+"/"+object_id) #foldername + '/' + filename)
-    destination_object_id = "bkt-splitwav-destination"
+    destination_bucketName = "bkt-splitwav-destination-v7"
     blob.download_to_filename(destination_object_id)
+    copy_blob(bucket_id,object_id,destination_bucketName,object_id)
     print("OBJECT ID IS: " + object_id + "a " + destination_object_id)
     # newData = AudioSegment.from_wav(foldername+"/"+object_id)
     # i = 0
