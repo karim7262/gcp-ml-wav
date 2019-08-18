@@ -48,7 +48,11 @@ def summarize(message):
         #Start Copy Object to Destination in Spliting Format
         #CpSrcTrgtSplits(bucket_id, object_id)
         destination_bucketName = "bkt-splitwav-destination-v7"
-        copy_blob(bucket_id, object_id, destination_bucketName, object_id)
+		destination_object_id = "destination-v7" + object_id
+        copy_blob(bucket_id, object_id, destination_bucketName, destination_object_id)
+		print("****************Splitting Start****************")
+		new = AudioSegment.from_wav(destination_object_id)
+		print("****************Splitting End****************")
         #End Copy Object to Destination in Spliting Format
     else:
        description="OtherOperation"

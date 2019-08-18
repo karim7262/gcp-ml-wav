@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5d5fe60-d67a-4415-849a-87a1cec1c038" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/newmain.py" afterPath="$PROJECT_DIR$/newmain.py" />
-    </list>
+    <list default="true" id="e5d5fe60-d67a-4415-849a-87a1cec1c038" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +14,8 @@
       <file leaf-file-name="newmain.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/newmain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="54" column="25" lean-forward="true" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+            <state relative-caret-position="228">
+              <caret line="61" column="60" lean-forward="false" selection-start-line="61" selection-start-column="60" selection-end-line="61" selection-end-column="60" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -255,8 +253,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/newmain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="54" column="25" lean-forward="true" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+        <state relative-caret-position="228">
+          <caret line="61" column="60" lean-forward="false" selection-start-line="61" selection-start-column="60" selection-end-line="61" selection-end-column="60" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
