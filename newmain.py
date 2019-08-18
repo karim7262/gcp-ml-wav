@@ -102,4 +102,4 @@ def poll_notifications(project, subscription_name):
 
 
 if __name__ == '__main__':
-    poll_notifications("ai-proj-v5","subs-v5-628")
+    poll_notifications("ai-proj-v7","subs-v7-1000")
