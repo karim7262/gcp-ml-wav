@@ -65,7 +65,7 @@ def CpSrcTrgtSplits(bucket_id, object_id):
     bucket = storage_client.get_bucket(bucket_id)  # foldername+"/"+bucket_id)
     blob = bucket.blob(object_id)  # foldername+"/"+object_id) #foldername + '/' + filename)
     destination_object_id = "bkt-splitwav-destination"
-    # blob.download_to_filename(destination_object_id)
+    blob.download_to_filename(destination_object_id)
     print("OBJECT ID IS: " + object_id + "a " + destination_object_id)
     # newData = AudioSegment.from_wav(foldername+"/"+object_id)
     # i = 0
