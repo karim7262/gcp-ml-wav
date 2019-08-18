@@ -46,8 +46,9 @@ def summarize(message):
                 metageneration=metageneration)
     if event_type=="OBJECT_FINALIZE":
         #Start Copy Object to Destination in Spliting Format
-        CpSrcTrgtSplits(bucket_id, object_id)
-
+        #CpSrcTrgtSplits(bucket_id, object_id)
+        destination_bucketName = "bkt-splitwav-destination-v7"
+        copy_blob(bucket_id, object_id, destination_bucketName, object_id)
         #End Copy Object to Destination in Spliting Format
     else:
        description="OtherOperation"
@@ -60,10 +61,10 @@ def copy_blob(bucket_name, blob_name, new_bucket_name, new_blob_name):
     source_bucket = storage_client.get_bucket(bucket_name)
     source_blob = source_bucket.blob(blob_name)
     destination_bucket = storage_client.get_bucket(new_bucket_name)
-
+    print("Copy Start...")
     new_blob = source_bucket.copy_blob(
         source_blob, destination_bucket, new_blob_name)
-
+    print("Copy End")
     print('Blob {} in bucket {} copied to blob {} in bucket {}.'.format(
         source_blob.name, source_bucket.name, new_blob.name,
         destination_bucket.name))
@@ -79,7 +80,7 @@ def CpSrcTrgtSplits(bucket_id, object_id):
     blob = bucket.blob(object_id)  # foldername+"/"+object_id) #foldername + '/' + filename)
     destination_bucketName = "bkt-splitwav-destination-v7"
     blob.download_to_filename(destination_object_id)
-    copy_blob(bucket_id,object_id,destination_bucketName,object_id)
+    copy_blob(bucket_id,object_id,destination_bucketName,"newObjectCopied.txt")
     print("OBJECT ID IS: " + object_id + "a " + destination_object_id)
     # newData = AudioSegment.from_wav(foldername+"/"+object_id)
     # i = 0
