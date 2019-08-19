@@ -5,6 +5,7 @@ import soundfile
 import subprocess
 from statistics import mode
 from pydub import AudioSegment
+import speech_recognition as sr
 from google.cloud import storage
 from google.cloud import pubsub_v1
 from google.cloud import speech_v1p1beta1 as speech
@@ -49,7 +50,13 @@ def summarize(message):
 		destination_bucketName = "bkt-splitwav-destination-v7"
 		destination_object_id = "destination-v7" + object_id
 		print("****************Splitting Start****************")
-		#new = AudioSegment.from_wav(destination_object_id)
+		message.ack()
+                try:
+			print("Audio Segment Started")
+			new = AudioSegment.from_wav(object_id)
+			print("Audio Segment End")
+                except:
+		        print("Error Occured".sys.exc_inf()[0])
 		print("****************Splitting End****************")
     else:
        description="OtherOperation"
