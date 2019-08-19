@@ -100,35 +100,35 @@ Step #2 - Recognizing the chunk and writing to a file.
 
 	# Specify the audio file to recognize 
 
-	AUDIO_FILE = filename 
+AUDIO_FILE = filename 
 
-	# Initialize the recognizer 
-	r = sr.Recognizer() 
+# Initialize the recognizer 
+r = sr.Recognizer() 
 
-	# Traverse the audio file and listen to the audio 
-	with sr.AudioFile(AUDIO_FILE) as source: 
-		audio_listened = r.listen(source) 
+# Traverse the audio file and listen to the audio 
+with sr.AudioFile(AUDIO_FILE) as source: 
+	audio_listened = r.listen(source) 
 
-	# Try to recognize the listened audio 
-	# And catch expections. 
-	try:	 
-		rec = r.recognize_google(audio_listened) 
-		
-		# If recognized, write into the file. 
-		fh.write(rec+" ") 
+# Try to recognize the listened audio 
+# And catch expections. 
+try:	 
+	rec = r.recognize_google(audio_listened) 
 	
-	# If google could not understand the audio 
-	except sr.UnknownValueError: 
-		print("Could not understand audio") 
+	# If recognized, write into the file. 
+	fh.write(rec+" ") 
 
-	# If the results cannot be requested from Google. 
-	# Probably an internet connection error. 
-	except sr.RequestError as e: 
-		print("Could not request results.") 
+# If google could not understand the audio 
+except sr.UnknownValueError: 
+	print("Could not understand audio") 
 
-	# Check for flag. 
-	# If flag is 1, end of the whole audio reached. 
-	# Close the file and break. 
-	if flag == 1: 
-		fh.close() 
-		break
+# If the results cannot be requested from Google. 
+# Probably an internet connection error. 
+except sr.RequestError as e: 
+	print("Could not request results.") 
+
+# Check for flag. 
+# If flag is 1, end of the whole audio reached. 
+# Close the file and break. 
+if flag == 1: 
+	fh.close() 
+	break
