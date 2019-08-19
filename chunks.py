@@ -91,44 +91,44 @@ for i in range(0, 2 * n, interval):
 	# for the sliced audio files. 
 
 
-''' 
-Step #2 - Recognizing the chunk and writing to a file. 
-'''
+	''' 
+	Step #2 - Recognizing the chunk and writing to a file. 
+	'''
 
 	# Here, Google Speech Recognition is used 
 	# to take each chunk and recognize the text in it. 
 
 	# Specify the audio file to recognize 
 
-AUDIO_FILE = filename 
+	AUDIO_FILE = filename 
 
-# Initialize the recognizer 
-r = sr.Recognizer() 
+	# Initialize the recognizer 
+	r = sr.Recognizer() 
 
-# Traverse the audio file and listen to the audio 
-with sr.AudioFile(AUDIO_FILE) as source: 
-	audio_listened = r.listen(source) 
+	# Traverse the audio file and listen to the audio 
+	with sr.AudioFile(AUDIO_FILE) as source: 
+		audio_listened = r.listen(source) 
 
-# Try to recognize the listened audio 
-# And catch expections. 
-try:	 
-	rec = r.recognize_google(audio_listened) 
-	
-	# If recognized, write into the file. 
-	fh.write(rec+" ") 
+	# Try to recognize the listened audio 
+	# And catch expections. 
+	try:	 
+		rec = r.recognize_google(audio_listened) 
+		
+		# If recognized, write into the file. 
+		fh.write(rec+" ") 
 
-# If google could not understand the audio 
-except sr.UnknownValueError: 
-	print("Could not understand audio") 
+	# If google could not understand the audio 
+	except sr.UnknownValueError: 
+		print("Could not understand audio") 
 
-# If the results cannot be requested from Google. 
-# Probably an internet connection error. 
-except sr.RequestError as e: 
-	print("Could not request results.") 
+	# If the results cannot be requested from Google. 
+	# Probably an internet connection error. 
+	except sr.RequestError as e: 
+		print("Could not request results.") 
 
-# Check for flag. 
-# If flag is 1, end of the whole audio reached. 
-# Close the file and break. 
-if flag == 1: 
-	fh.close() 
-	break
+	# Check for flag. 
+	# If flag is 1, end of the whole audio reached. 
+	# Close the file and break. 
+	if flag == 1: 
+		fh.close() 
+		break
