@@ -1,9 +1,15 @@
 # Import necessary libraries 
 from pydub import AudioSegment 
+from pydub.utils import which
 import speech_recognition as sr 
 
+
+AudioSegment.converter = which("ffmpeg")
 # Input audio file to be sliced 
-audio = AudioSegment.from_wav("1.wav") 
+audio = AudioSegment.from_wav("125536_SPLS_TestP2.wav") 
+#audio = AudioSegment.from_wav("1.wav") 
+#audio = AudioSegment.from_file("1.wav",format="wav") 
+
 
 ''' 
 Step #1 - Slicing the audio file into smaller chunks. 
