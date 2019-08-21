@@ -69,7 +69,7 @@ def summarize(message):
 			subprocess.call(["gsutil",'cp',strBlobURL,strObjectURL+"/."])
 			
 			print("3.Create Multiple Files")
-			subprocess.call("ffmpeg -i ./"+strTempWavFldr+"/"+object_id+" -f segment -segment_time 1 -c copy ./"+strTempWavFldr+"/"+object_without_ext+"/out%03d.wav",shell=True)
+			subprocess.call("ffmpeg -i ./"+strObjectURL+"/"+object_id+" -f segment -segment_time 1 -c copy ./"+strObjectURL+"/out%03d.wav",shell=True)
 			#new = AudioSegment.from_wav(object_id)
 			print("Audio Segment End")
                 except:
