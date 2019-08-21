@@ -1,3 +1,4 @@
+import os
 import json
 import time
 import random
@@ -56,8 +57,11 @@ def summarize(message):
 			print("Start: Copy to Local Directory")
 			print("1.Create Temp Folder")
 			strTempWavFldr="temp-wav"
-			object_without_ext=os.path.splitext(object_id)[0]
+			print("object_id is "+object_id)
+			object_without_ext=os.path.splitext(str(object_id))[0]
+			print("Object Without Ext..."+object_without_ext)
 			strObjectURL="./"+strTempWavFldr+"/"+object_without_ext
+			print("Complete URL "+strObjectURL)
 			os.mkdir(strObjectURL)
 			
 			print("2.Copy From Bucket to Temp Folder")
