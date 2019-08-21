@@ -54,13 +54,17 @@ def summarize(message):
                 try:
 			message.ack()
 			print("Start: Copy to Local Directory")
-			strBlobURL="gs://"+bucket_id+"/"+object_id
+			print("1.Create Temp Folder")
 			strTempWavFldr="temp-wav"
-			subprocess.call(["gsutil",'cp',strBlobURL,"./"+strTempWavFldr+"/."])
-			print("Copy Done")
 			object_without_ext=os.path.splitext(object_id)[0]
-			os.mkdir("./"+strTempWavFldr+"/"+object_without_ext)
-			print("MKDIR  Done")
+			strObjectURL="./"+strTempWavFldr+"/"+object_without_ext
+			os.mkdir(strObjectURL)
+			
+			print("2.Copy From Bucket to Temp Folder")
+			strBlobURL="gs://"+bucket_id+"/"+object_id
+			subprocess.call(["gsutil",'cp',strBlobURL,strObjectURL+"/."])
+			
+			print("3.Create Multiple Files")
 			subprocess.call("ffmpeg -i ./"+strTempWavFldr+"/"+object_id+" -f segment -segment_time 1 -c copy ./"+strTempWavFldr+"/"+object_without_ext+"/out%03d.wav",shell=True)
 			#new = AudioSegment.from_wav(object_id)
 			print("Audio Segment End")
