@@ -7,7 +7,7 @@ from statistics import mode
 from pydub import AudioSegment
 import speech_recognition as sr
 from google.cloud import storage
-from google.cloud import pubsub_v1
+from google.cloud import pubsub
 from google.cloud import speech_v1p1beta1 as speech
 
 def IsOverWrote(attributes,description):
@@ -50,10 +50,19 @@ def summarize(message):
 		destination_bucketName = "bkt-splitwav-destination-v7"
 		destination_object_id = "destination-v7" + object_id
 		print("****************Splitting Start****************")
-		message.ack()
+		#message.ack()
                 try:
-			print("Audio Segment Started")
-			new = AudioSegment.from_wav(object_id)
+			message.ack()
+			print("Start: Copy to Local Directory")
+			strBlobURL="gs://"+bucket_id+"/"+object_id
+			strTempWavFldr="temp-wav"
+			subprocess.call(["gsutil",'cp',strBlobURL,"./"+strTempWavFldr+"/."])
+			print("Copy Done")
+			object_without_ext=os.path.splitext(object_id)[0]
+			os.mkdir("./"+strTempWavFldr+"/"+object_without_ext)
+			print("MKDIR  Done")
+			subprocess.call("ffmpeg -i ./"+strTempWavFldr+"/"+object_id+" -f segment -segment_time 1 -c copy ./"+strTempWavFldr+"/"+object_without_ext+"/out%03d.wav",shell=True)
+			#new = AudioSegment.from_wav(object_id)
 			print("Audio Segment End")
                 except:
 		        print("Error Occured".sys.exc_inf()[0])
@@ -66,7 +75,7 @@ def summarize(message):
 
 def poll_notifications(project, subscription_name):
     # [BEGIN poll_notifications]
-    subscriber = pubsub_v1.SubscriberClient()
+    subscriber = pubsub.SubscriberClient()
     subscription_path = subscriber.subscription_path(
         project, subscription_name)
 
