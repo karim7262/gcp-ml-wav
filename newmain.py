@@ -94,8 +94,8 @@ def summarize(message):
 			first_lang = 'es-ES'
 			second_lang = ['en-US', 'pt-BR']
 			sample_size = 40
-			#print("Variable Initialized")
-			fileList = os.listdir('./'+strObjectURL)
+			print("Variable Initialized"+strObjectURL)
+			fileList = os.listdir(strObjectURL)
 			probable_languages_list = []
 			print("fileList Prepared"+fileList)
 			if sample_size > len(fileList):
