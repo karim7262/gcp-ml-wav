@@ -64,11 +64,10 @@ def summarize(message):
 		print("Object Uploaded...")
 		destination_bucketName = "bkt-splitwav-destination-v7"
 		destination_object_id = "destination-v7" + object_id
-		print("****************Splitting Start****************")
+		print("****************Start****************")
 		#message.ack()
                 try:
 			message.ack()
-			print("Start: Copy to Local Directory")
 			
 			print("1.If Not Exists then Create Temp Folder")
 			strTempWavFldr="temp-wav"
@@ -78,6 +77,7 @@ def summarize(message):
 			strObjectURL="./"+strTempWavFldr+"/"+object_without_ext
 			print("Complete URL "+strObjectURL)
 			if os.path.exists(strObjectURL):
+				print("Found some files and folders with newly uploaded object")
 				clear_folder(strObjectURL)
 			os.mkdir(strObjectURL)
 			
@@ -86,12 +86,48 @@ def summarize(message):
 			subprocess.call(["gsutil",'cp',strBlobURL,strObjectURL+"/."])
 			
 			print("3.Create Multiple Files")
-			subprocess.call("ffmpeg -i ./"+strObjectURL+"/"+object_id+" -f segment -segment_time 1 -c copy ./"+strObjectURL+"/out%03d.wav",shell=True)
+			strInputWavFile="./"+strObjectURL+"/"+object_id
+			subprocess.call("ffmpeg -i "+strInputWavFile+" -f segment -segment_time 1 -c copy ./"+strObjectURL+"/out%03d.wav",shell=True)
+			if os.path.exists(strInputWavFile):
+				os.remove(strInputWavFile)
+			print("4.Send wav audio part file to Speech API")
+			first_lang = 'es-ES'
+			second_lang = ['en-US', 'pt-BR']
+			sample_size = 40
+			#print("Variable Initialized")
+			fileList = os.listdir('./'+strObjectURL)
+			probable_languages_list = []
+			print("fileList Prepared"+fileList)
+			if sample_size > len(fileList):
+				sample_size = len(fileList)
 			#new = AudioSegment.from_wav(object_id)
-			print("Audio Segment End")
+			print("sample_size checked: "+sample_size)
+			for speech_file in random.sample(fileList, sample_size):
+				print("Speech File Loop Start")
+				print("speech_file: "+speech_file)
+				with open('./'+strObjectURL+'/' + speech_file, 'rb') as audio_file:
+					content = audio_file.read()
+				print("File Open with this Location")
+				audio = speech.types.RecognitionAudio(content=content)
+				print("Audio Object Prepared: ")
+				config = speech.types.RecognitionConfig(encoding=speech.enums.RecognitionConfig.AudioEncoding.LINEAR16,audio_channel_count=2,language_code=first_lang,alternative_language_codes=second_lang,model='default')
+				print('Waiting for operation to complete...')
+				languageList = []
+				response = client.recognize(config, audio)
+				print("response object")
+
+				for i in response.results:
+					languageList.append(i.language_code)
+				print("Language List are: "+languageList)
+				if languageList:
+					probable_languages_list.append(mode(languageList))
+			print("Probable Language List are: "+probable_languages_list)
+			detected_language = mode(probable_languages_list)
+			print("Detected Language are: "+detected_language)
+			#print("Audio Segment End")
                 except:
 		        print("Error Occured".sys.exc_inf()[0])
-		print("****************Splitting End****************")
+		print("****************End****************")
     else:
        description="OtherOperation"
     return description
