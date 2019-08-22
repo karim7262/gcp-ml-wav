@@ -20,6 +20,20 @@ def IsOverWrote(attributes,description):
             attributes['overwrittenByGeneration'])
     return description
 
+def clear_folder(dir):
+    if os.path.exists(dir):
+        for the_file in os.listdir(dir):
+            file_path = os.path.join(dir, the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                else:
+                    clear_folder(file_path)
+                    os.rmdir(file_path)
+            except Exception as e:
+                print(e)
+
+
 def summarize(message):
     # [START parse_message]
     data = message.data.decode('utf-8')
@@ -55,13 +69,16 @@ def summarize(message):
                 try:
 			message.ack()
 			print("Start: Copy to Local Directory")
-			print("1.Create Temp Folder")
+			
+			print("1.If Not Exists then Create Temp Folder")
 			strTempWavFldr="temp-wav"
 			print("object_id is "+object_id)
 			object_without_ext=os.path.splitext(str(object_id))[0]
 			print("Object Without Ext..."+object_without_ext)
 			strObjectURL="./"+strTempWavFldr+"/"+object_without_ext
 			print("Complete URL "+strObjectURL)
+			if os.path.exists(strObjectURL):
+				clear_folder(strObjectURL)
 			os.mkdir(strObjectURL)
 			
 			print("2.Copy From Bucket to Temp Folder")
